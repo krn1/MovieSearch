@@ -1,11 +1,8 @@
 package raghu.omdb.co;
 
-import android.location.Location;
-
 import java.util.ArrayList;
 
 import raghu.omdb.co.repository.model.MovieInfo;
-import raghu.omdb.co.repository.model.MovieResults;
 
 interface MainActivityContract {
     interface View {
@@ -20,6 +17,8 @@ interface MainActivityContract {
     }
 
     interface Presenter {
+
+        void start();
 
         void stop();
 

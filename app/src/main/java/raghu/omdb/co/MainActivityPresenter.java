@@ -42,6 +42,11 @@ class MainActivityPresenter implements MainActivityContract.Presenter {
     }
 
     @Override
+    public void start() {
+        PAGE_NUM = 1;
+    }
+
+    @Override
     public void stop() {
         disposable.clear();
     }
@@ -60,11 +65,9 @@ class MainActivityPresenter implements MainActivityContract.Presenter {
                     public void onNext(MovieResults movieResults) {
                         view.hideSpinner();
 
-                        if (movieResults.getError()!=null) {
-                            view.showError("Some thing is wrong with this key word.Please modify your input");
+                        if (movieResults.getError() != null || movieResults.getResults().isEmpty()) {
+                            view.showError("Some search words dont yeild right results.Please modify your input!");
                         } else {
-                            Timber.e("We got size %d\n ", movieResults.getResults().size());
-                            Timber.e(movieResults.toString());
                             movieList = (ArrayList<MovieInfo>) movieResults.getResults();
                             updateSearchResult();
                         }
@@ -74,7 +77,7 @@ class MainActivityPresenter implements MainActivityContract.Presenter {
                     public void onError(Throwable throwable) {
                         Timber.e("Wtf " + throwable.getMessage());
                         view.hideSpinner();
-                        view.showError("");
+                        view.showError(""); // default error msg
                     }
 
                     @Override
@@ -83,8 +86,8 @@ class MainActivityPresenter implements MainActivityContract.Presenter {
                 }));
     }
 
-        private void updateSearchResult() {
-            PAGE_NUM++ ;
-            view.showMovieList(movieList);
-        }
+    private void updateSearchResult() {
+        PAGE_NUM++;
+        view.showMovieList(movieList);
+    }
 }

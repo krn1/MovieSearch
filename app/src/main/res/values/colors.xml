@@ -11,4 +11,6 @@
     <color name="medium_dark_grey">#bdbdbd</color>
     <color name="light_grey_transparent">#aaeeeeee</color>
     <color name="black">#222222</color>
+    <color name="blood_red">#B50A1A</color>
+    <color name="light_white">#F2F2F2</color>
 </resources>

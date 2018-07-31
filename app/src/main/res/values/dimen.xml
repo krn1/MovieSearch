@@ -5,4 +5,27 @@
     <dimen name="main_margin">20dp</dimen>
     <dimen name="search_main_margin">60dp</dimen>
     <dimen name="edit_main_margin">40dp</dimen>
+
+    <!-- Font sizes -->
+    <dimen name="text_size_micro">12sp</dimen>
+    <dimen name="text_size_small">14sp</dimen>
+    <dimen name="text_size_medium">16sp</dimen>
+    <dimen name="text_size_large">20sp</dimen>
+    <dimen name="text_size_xlarge">34sp</dimen>
+    <dimen name="text_size_xxlarge">45sp</dimen>
+    <dimen name="text_size_xxxlarge">56sp</dimen>
+    <dimen name="text_size_xxxxlarge">112sp</dimen>
+
+    <!-- Elevation -->
+    <dimen name="card_view_elevation">4dp</dimen>
+    <dimen name="bottom_navigation_elevation">8dp</dimen>
+
+     <!--movie card size-->
+    <dimen name="card_width">80dp</dimen>
+    <dimen name="card_height">320dp</dimen>
+    <dimen name="margin_padding_size_micro">4dp</dimen>
+    <dimen name="margin_padding_size_small">8dp</dimen>
+
+    <dimen name="thumbnail_detail_width">80dp</dimen>
+    <dimen name="thumbnail_detail_height">130dp</dimen>
 </resources>

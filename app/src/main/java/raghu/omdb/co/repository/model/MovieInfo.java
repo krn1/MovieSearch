@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Objects;
+
 public class MovieInfo implements Parcelable {
    @SerializedName("Title")
    private String title;
@@ -89,5 +91,18 @@ public class MovieInfo implements Parcelable {
 
     public void setPoster(String poster) {
         this.poster = poster;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MovieInfo that = (MovieInfo) o;
+        return Objects.equals(((MovieInfo) o).imdbId, that.imdbId) ;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(imdbId);
     }
 }

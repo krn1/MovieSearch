@@ -15,7 +15,7 @@ public class MovieResults implements Parcelable {
     @SerializedName("Error")
     private String error;
 
-    protected MovieResults(Parcel in) {
+    MovieResults(Parcel in) {
         results = in.createTypedArrayList(MovieInfo.CREATOR);
         error = in.readString();
     }
