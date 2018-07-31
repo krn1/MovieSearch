@@ -3,11 +3,14 @@ package raghu.omdb.co;
 import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatEditText;
+import android.text.TextUtils;
 
 import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -23,7 +26,9 @@ public class MainActivity extends AppCompatActivity  implements MainActivityCont
     @Inject
     MainActivityPresenter presenter;
 
-    private CompositeDisposable disposable = new CompositeDisposable();
+    @BindView(R.id.movie_search)
+    AppCompatEditText searchView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,18 +36,19 @@ public class MainActivity extends AppCompatActivity  implements MainActivityCont
 
         ButterKnife.bind(this);
         getComponent().inject(this);
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        presenter.getMovieList("you");
+        searchView.setOnClickListener(listener -> {
+            String movieName = String.valueOf(searchView.getText());
+            if (isValidText(movieName)) {
+                presenter.getMovieList(movieName);
+            }
+        });
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        disposable.clear();
+        presenter.stop();
     }
 
     @Override
@@ -72,6 +78,10 @@ public class MainActivity extends AppCompatActivity  implements MainActivityCont
                 .movieAppComponent(((MovieApp) getApplication()).getComponent())
                 .mainActivityModule(new MainActivityModule(this))
                 .build();
+    }
+
+    private boolean isValidText(String movieName) {
+        return (movieName!=null && !TextUtils.isEmpty(movieName));
     }
     // end region
 }

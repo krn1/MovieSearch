@@ -3,4 +3,5 @@
 
     <!--OMDB Api Key-->
     <string name="api_key">565465a9</string>
+    <string name="search_hint">Search any movie name eg Batman</string>
 </resources>

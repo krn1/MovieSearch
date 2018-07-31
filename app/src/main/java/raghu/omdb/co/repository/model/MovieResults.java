@@ -9,9 +9,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-/**
- *  Search response from the backend
- */
 public class MovieResults implements Parcelable {
     @SerializedName("Search")
     private List<MovieInfo> results;

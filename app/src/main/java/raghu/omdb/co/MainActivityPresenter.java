@@ -56,14 +56,13 @@ class MainActivityPresenter implements MainActivityContract.Presenter {
                 .subscribeWith(new DisposableSubscriber<MovieResults>() {
                     @Override
                     public void onNext(MovieResults movieResults) {
-                        Timber.e("We got size %d\n ", movieResults.getResults().size());
                         view.hideSpinner();
                         Timber.e(movieResults.toString());
 
                         if (movieResults.getResults().isEmpty()) {
                             view.showError("Some thing is wrong with the backend");
                         } else {
-                            //updateSearchResult(movieResults.getResults());
+                            Timber.e("We got size %d\n ", movieResults.getResults().size());
                             movieList = (ArrayList<MovieInfo>) movieResults.getResults();
                             view.showCarsList(movieList);
                         }
