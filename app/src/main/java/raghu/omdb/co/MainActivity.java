@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     EpoxyRecyclerView list;
 
     private MovieGalleryController movieGalleryController;
+    private String currentSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         super.onStart();
         presenter.start();
     }
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -106,12 +108,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         movieGalleryController = new MovieGalleryController();
         list.setLayoutManager(layoutManager);
         list.setController(movieGalleryController);
-        list.setItemSpacingDp(2);
     }
 
     private void onSearchClicked() {
         String movieName = String.valueOf(searchView.getText());
-        if (movieName != null && !TextUtils.isEmpty(movieName)) {
+        if (movieName != null && !TextUtils.isEmpty(movieName) && !movieName.equalsIgnoreCase(currentSearch)) {
+            currentSearch = movieName;
             presenter.getMovieList(movieName);
         }
     }

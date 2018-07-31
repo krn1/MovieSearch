@@ -2,7 +2,6 @@ package raghu.omdb.co.epoxy;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -26,12 +25,6 @@ class ItemView extends FrameLayout {
     @BindView(R.id.thumbnail)
     SimpleDraweeView posterView;
 
-    @BindView(R.id.movie_title)
-    AppCompatTextView titleView;
-
-    @BindView(R.id.year)
-    AppCompatTextView yearView;
-
     private MovieInfo movieInfo;
 
     public ItemView(@NonNull Context context) {
@@ -47,8 +40,6 @@ class ItemView extends FrameLayout {
         this.movieInfo = movieInfo;
 
         posterView.setImageURI(movieInfo.getPoster());
-        titleView.setText(movieInfo.getTitle());
-        yearView.setText(movieInfo.getYear());
     }
 
     // region private

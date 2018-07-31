@@ -7,5 +7,5 @@
 
     <!--Main Activity-->
     <string name="search_hint">Search any movie name eg Batman</string>
-    <string name="showing">Showing ...</string>
+    <string name="showing">Showing search results ...</string>
 </resources>
