@@ -1,8 +1,7 @@
 package raghu.omdb.co;
 
-import android.location.Location;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
 
@@ -12,14 +11,9 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.schedulers.Schedulers;
 import raghu.omdb.co.app.MovieApp;
-import raghu.omdb.co.app.MovieAppComponent;
 import raghu.omdb.co.repository.model.MovieInfo;
-import raghu.omdb.co.repository.model.MovieResults;
-import timber.log.Timber;
+import raghu.omdb.co.utils.AlertUtils;
 
 public class MainActivity extends AppCompatActivity  implements MainActivityContract.View{
 
@@ -63,11 +57,11 @@ public class MainActivity extends AppCompatActivity  implements MainActivityCont
 
     @Override
     public void showError(String msg) {
-
+        AlertUtils.displayError(this, msg);
     }
 
     @Override
-    public void showCarsList(ArrayList<MovieInfo> movieList) {
+    public void showMovieList(ArrayList<MovieInfo> movieList) {
 
     }
 

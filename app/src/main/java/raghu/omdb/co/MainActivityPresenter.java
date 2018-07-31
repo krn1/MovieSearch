@@ -19,6 +19,7 @@ import timber.log.Timber;
 @PerActivity
 class MainActivityPresenter implements MainActivityContract.Presenter {
 
+    private int PAGE_NUM = 1;
     private MainActivityContract.View view;
     private CompositeDisposable disposable;
     private RestApi apiService;
@@ -50,21 +51,22 @@ class MainActivityPresenter implements MainActivityContract.Presenter {
         Timber.e("get the movie list ");
         view.showSpinner();
         disposable.add(apiService.searchByTitle(omdbApiKey,
-                movieName)
+                movieName,
+                PAGE_NUM)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableSubscriber<MovieResults>() {
                     @Override
                     public void onNext(MovieResults movieResults) {
                         view.hideSpinner();
-                        Timber.e(movieResults.toString());
 
-                        if (movieResults.getResults().isEmpty()) {
-                            view.showError("Some thing is wrong with the backend");
+                        if (movieResults.getError()!=null) {
+                            view.showError("Some thing is wrong with this key word.Please modify your input");
                         } else {
                             Timber.e("We got size %d\n ", movieResults.getResults().size());
+                            Timber.e(movieResults.toString());
                             movieList = (ArrayList<MovieInfo>) movieResults.getResults();
-                            view.showCarsList(movieList);
+                            updateSearchResult();
                         }
                     }
 
@@ -81,27 +83,8 @@ class MainActivityPresenter implements MainActivityContract.Presenter {
                 }));
     }
 
-    //    private void updateSearchResult(List<Result> rentalCars) {
-    //        ArrayList<Car> cars = new ArrayList<>();
-    //
-    //        int id = 1;
-    //        for (Result result : rentalCars) {
-    //            for (Car car : result.getCars()) {
-    //                car.setCompanyName(result.getProvider().getCompanyName());
-    //                car.setCarLocation(result.getLocation());
-    //                car.setUserLocation(userLocation);
-    //                car.setAddress(result.getAddress());
-    //                car.setAirport(result.getAirport());
-    //                car.setId(id);
-    //                cars.add(car);
-    //                id++;
-    //            }
-    //        }
-    //        if (!carList.isEmpty()) {
-    //            carList.clear();
-    //        }
-    //        carList.addAll(cars);
-    //        view.showCarsList(carList);
-    //
-    //    }
+        private void updateSearchResult() {
+            PAGE_NUM++ ;
+            view.showMovieList(movieList);
+        }
 }

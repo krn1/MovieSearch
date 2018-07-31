@@ -16,7 +16,7 @@ interface MainActivityContract {
 
         void showError(String msg);
 
-        void showCarsList(ArrayList<MovieInfo> movieList);
+        void showMovieList(ArrayList<MovieInfo> movieList);
     }
 
     interface Presenter {
