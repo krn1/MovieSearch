@@ -126,7 +126,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
     public void showMovieInfo(MovieDetail movieInfo) {
 
         posterImageView.setImageURI(movieInfo.getPoster());
-        thumbnailImageView.setImageURI(movieInfo.getDvd());
+        thumbnailImageView.setImageURI(movieInfo.getPoster());
         titleView.setText(movieInfo.getTitle());
         yearView.setText(getString(R.string.year_and_runtime, movieInfo.getYear(), movieInfo.getRuntime()));
         ratingView.setText(getString(R.string.imdb_rating, movieInfo.getImdbRating()));

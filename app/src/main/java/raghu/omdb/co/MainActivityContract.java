@@ -22,6 +22,6 @@ interface MainActivityContract {
 
         void stop();
 
-        void getMovieList(String movieName);
+        void loadMovieListsByPage(String movieName);
     }
 }

@@ -52,8 +52,7 @@ class MainActivityPresenter implements MainActivityContract.Presenter {
     }
 
     @Override
-    public void getMovieList(String movieName) {
-        Timber.e("get the movie list ");
+    public void loadMovieListsByPage(String movieName) {
         view.showSpinner();
         disposable.add(apiService.searchByTitle(omdbApiKey,
                 movieName,

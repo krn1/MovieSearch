@@ -23,6 +23,7 @@ import raghu.omdb.co.epoxy.MovieGalleryController;
 import raghu.omdb.co.repository.model.MovieInfo;
 import raghu.omdb.co.utils.AlertUtils;
 import raghu.omdb.co.utils.KeyboardUtils;
+import raghu.omdb.co.utils.PaginationUtils;
 
 public class MainActivity extends AppCompatActivity implements MainActivityContract.View {
 
@@ -52,26 +53,20 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         ButterKnife.bind(this);
         getComponent().inject(this);
 
-        setUpEpoxy();
         searchView.setOnClickListener(listener -> onSearchClicked());
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         presenter.start();
+        setUpEpoxy();
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
         presenter.stop();
     }
 
     @Override
     public void showSpinner() {
         progressBarContainer.setVisibility(View.VISIBLE);
-        searchHeader.setVisibility(View.GONE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
@@ -108,15 +103,28 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         movieGalleryController = new MovieGalleryController();
         list.setLayoutManager(layoutManager);
         list.setController(movieGalleryController);
+
+        list.addOnScrollListener(new PaginationUtils(layoutManager, null) {
+            @Override
+            public void loadNextPage() {
+                if (!isLoading()) {
+                    presenter.loadMovieListsByPage(currentSearch);
+                }
+            }
+        });
     }
 
     private void onSearchClicked() {
         String movieName = String.valueOf(searchView.getText());
         if (movieName != null && !TextUtils.isEmpty(movieName) && !movieName.equalsIgnoreCase(currentSearch)) {
             currentSearch = movieName;
-            presenter.getMovieList(movieName);
+            presenter.start();
+            presenter.loadMovieListsByPage(movieName);
         }
     }
 
+    private boolean isLoading() {
+        return progressBarContainer.getVisibility() == View.VISIBLE;
+    }
     // end region
 }
