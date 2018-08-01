@@ -3,7 +3,9 @@ package raghu.omdb.co.details;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -29,6 +31,9 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
 
     @BindView(R.id.progress_bar_container)
     FrameLayout progressBarContainer;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     @BindView(R.id.poster)
     SimpleDraweeView posterImageView;
@@ -81,6 +86,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
         } else {
             finish();
         }
+
+        setupToolbar();
     }
 
     @Override
@@ -93,15 +100,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
     protected void onStop() {
         super.onStop();
         presenter.stop();
-    }
-
-    // region private
-
-    private MovieDetailsComponent getComponent(String imdbId) {
-        return DaggerMovieDetailsComponent.builder()
-                .movieAppComponent(((MovieApp) getApplication()).getComponent())
-                .movieDetailsModule(new MovieDetailsModule(this, imdbId))
-                .build();
     }
 
     @Override
@@ -128,6 +126,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
         posterImageView.setImageURI(movieInfo.getPoster());
         thumbnailImageView.setImageURI(movieInfo.getPoster());
         titleView.setText(movieInfo.getTitle());
+        toolbar.setTitle(movieInfo.getTitle());
         yearView.setText(getString(R.string.year_and_runtime, movieInfo.getYear(), movieInfo.getRuntime()));
         ratingView.setText(getString(R.string.imdb_rating, movieInfo.getImdbRating()));
         plotView.setText(movieInfo.getPlot());
@@ -135,6 +134,26 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
         directorView.setText(movieInfo.getDirector());
         productionView.setText(movieInfo.getProduction());
         writersView.setText(movieInfo.getWriter());
+    }
+
+    // region private
+
+    private MovieDetailsComponent getComponent(String imdbId) {
+        return DaggerMovieDetailsComponent.builder()
+                .movieAppComponent(((MovieApp) getApplication()).getComponent())
+                .movieDetailsModule(new MovieDetailsModule(this, imdbId))
+                .build();
+    }
+    private void setupToolbar() {
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
+        toolbar.setNavigationIcon(getDrawable(R.drawable.abc_ic_ab_back_material));
+        toolbar.setNavigationOnClickListener(toolbar -> onBackPressed());
+        toolbar.setTitle("Movie name");
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
     }
 
     //endregion

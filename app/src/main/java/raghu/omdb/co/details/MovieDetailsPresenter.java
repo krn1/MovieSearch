@@ -9,7 +9,6 @@ import io.reactivex.subscribers.DisposableSubscriber;
 import raghu.omdb.co.dagger.PerActivity;
 import raghu.omdb.co.repository.model.MovieDetail;
 import raghu.omdb.co.repository.network.RestApi;
-import timber.log.Timber;
 
 @PerActivity
 class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
@@ -45,8 +44,6 @@ class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
     }
 
     private void getMovieInfo() {
-        Timber.e("fetch movie details for " + imdbID);
-
         view.showSpinner();
         disposable.add(apiService.searchByOMDbId(omdbApiKey, imdbID)
                 .subscribeOn(Schedulers.io())
@@ -55,13 +52,11 @@ class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
                     @Override
                     public void onNext(MovieDetail movieDetail) {
                         view.hideSpinner();
-                        Timber.e(movieDetail.toString());
                         view.showMovieInfo(movieDetail);
                     }
 
                     @Override
                     public void onError(Throwable throwable) {
-                        Timber.e("Wtf " + throwable.getMessage());
                         view.hideSpinner();
                         view.showError(""); // default error msg
                     }
