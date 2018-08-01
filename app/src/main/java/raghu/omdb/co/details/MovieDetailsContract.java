@@ -1,6 +1,6 @@
 package raghu.omdb.co.details;
 
-import raghu.omdb.co.repository.model.MovieInfo;
+import raghu.omdb.co.repository.model.MovieDetail;
 
 interface MovieDetailsContract {
     interface View {
@@ -11,7 +11,7 @@ interface MovieDetailsContract {
 
         void showError(String msg);
 
-        void showMovieInfo(MovieInfo movieInfo);
+        void showMovieInfo(MovieDetail movieInfo);
     }
 
     interface Presenter {

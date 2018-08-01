@@ -56,7 +56,7 @@ class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
                     public void onNext(MovieDetail movieDetail) {
                         view.hideSpinner();
                         Timber.e(movieDetail.toString());
-
+                        view.showMovieInfo(movieDetail);
                     }
 
                     @Override

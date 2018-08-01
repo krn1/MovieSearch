@@ -7,8 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import javax.inject.Inject;
 
@@ -16,49 +17,48 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import raghu.omdb.co.R;
 import raghu.omdb.co.app.MovieApp;
-import raghu.omdb.co.repository.model.MovieInfo;
+import raghu.omdb.co.repository.model.MovieDetail;
 import raghu.omdb.co.utils.AlertUtils;
-import timber.log.Timber;
 
 public class MovieDetailsActivity extends AppCompatActivity implements MovieDetailsContract.View {
 
     private static String IMDB_ID = "imdbId";
 
-    @BindView(R.id.ll_movie_container)
+    @BindView(R.id.root_viewr)
     protected View movieContainerView;
 
     @BindView(R.id.progress_bar_container)
     FrameLayout progressBarContainer;
 
-    @BindView(R.id.iv_poster)
-    ImageView posterImageView;
+    @BindView(R.id.poster)
+    SimpleDraweeView posterImageView;
 
-    @BindView(R.id.iv_thumbnail)
-    ImageView thumbnailImageView;
+    @BindView(R.id.thumbnail)
+    SimpleDraweeView thumbnailImageView;
 
-    @BindView(R.id.tv_title)
-    TextView titleTextView;
+    @BindView(R.id.title)
+    TextView titleView;
 
-    @BindView(R.id.tv_year_runtime)
-    TextView yearRuntimeTextView;
+    @BindView(R.id.year)
+    TextView yearView;
 
-    @BindView(R.id.tv_rating)
-    TextView ratingTextView;
+    @BindView(R.id.rating)
+    TextView ratingView;
 
-    @BindView(R.id.tv_plot)
-    TextView plotTextView;
+    @BindView(R.id.plot)
+    TextView plotView;
 
-    @BindView(R.id.tv_actors)
-    TextView actorsTextView;
+    @BindView(R.id.actors)
+    TextView actorsView;
 
-    @BindView(R.id.tv_director)
-    TextView directorTextView;
+    @BindView(R.id.director)
+    TextView directorView;
 
-    @BindView(R.id.tv_production)
-    TextView productionTextView;
+    @BindView(R.id.production)
+    TextView productionView;
 
-    @BindView(R.id.tv_writers)
-    TextView writersTextView;
+    @BindView(R.id.writers)
+    TextView writersView;
 
     @Inject
     MovieDetailsPresenter presenter;
@@ -75,7 +75,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
         setContentView(R.layout.activity_movie_details);
         ButterKnife.bind(this);
 
-        Timber.e("here ?");
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             getComponent(bundle.getString(IMDB_ID)).inject(this);
@@ -89,6 +88,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
         super.onStart();
         presenter.start();
     }
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -100,7 +100,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
     private MovieDetailsComponent getComponent(String imdbId) {
         return DaggerMovieDetailsComponent.builder()
                 .movieAppComponent(((MovieApp) getApplication()).getComponent())
-                .movieDetailsModule(new MovieDetailsModule(this,imdbId))
+                .movieDetailsModule(new MovieDetailsModule(this, imdbId))
                 .build();
     }
 
@@ -123,81 +123,19 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
     }
 
     @Override
-    public void showMovieInfo(MovieInfo movieInfo) {
+    public void showMovieInfo(MovieDetail movieInfo) {
 
+        posterImageView.setImageURI(movieInfo.getPoster());
+        thumbnailImageView.setImageURI(movieInfo.getDvd());
+        titleView.setText(movieInfo.getTitle());
+        yearView.setText(getString(R.string.year_and_runtime, movieInfo.getYear(), movieInfo.getRuntime()));
+        ratingView.setText(getString(R.string.imdb_rating, movieInfo.getImdbRating()));
+        plotView.setText(movieInfo.getPlot());
+        actorsView.setText(movieInfo.getActors());
+        directorView.setText(movieInfo.getDirector());
+        productionView.setText(movieInfo.getProduction());
+        writersView.setText(movieInfo.getWriter());
     }
 
     //endregion
-    //    @Override
-//    public void setPresenter(DetailsContract.Presenter presenter) {
-//        this.presenter = presenter;
-//    }
-//
-//    @Override
-//    public void setPoster(String poster) {
-//        Picasso.with(this).load(poster).fit().centerCrop().into(posterImageView);
-//    }
-//
-//    @Override
-//    public void setTitle(String title) {
-//        titleTextView.setText(title);
-//    }
-//
-//    @Override
-//    public void setThumbnail(String poster) {
-//        Picasso.with(this).load(poster).fit().into(thumbnailImageView);
-//    }
-//
-//    @Override
-//    public void setPlot(String plot) {
-//        plotTextView.setText(plot);
-//    }
-//
-//    @Override
-//    public void setYearAndRuntime(String year, String runtime) {
-//        yearRuntimeTextView.setText(getString(R.string.year_and_runtime, year, runtime));
-//    }
-//
-//    @Override
-//    public void setActors(String actors) {
-//        actorsTextView.setText(actors);
-//    }
-//
-//    @Override
-//    public void setDirector(String director) {
-//        directorTextView.setText(director);
-//    }
-//
-//    @Override
-//    public void setProduction(String production) {
-//        productionTextView.setText(production);
-//    }
-//
-//    @Override
-//    public void setWriters(String writers) {
-//        writersTextView.setText(writers);
-//    }
-//
-//    @Override
-//    public void setIMDbRating(String imdbRating) {
-//        ratingTextView.setText(getString(R.string.imdb_rating, imdbRating));
-//    }
-//
-//    @Override
-//    public void showError() {
-//        Toast.makeText(this, getText(R.string.error_state), Toast.LENGTH_SHORT).show();
-//        finish();
-//    }
-//
-//    @Override
-//    public void showLoading() {
-//        loadingView.setVisibility(View.VISIBLE);
-//        movieContainerView.setVisibility(View.GONE);
-//    }
-//
-//    @Override
-//    public void dismissLoading() {
-//        loadingView.setVisibility(View.GONE);
-//        movieContainerView.setVisibility(View.VISIBLE);
-//    }
 }

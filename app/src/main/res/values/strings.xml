@@ -8,4 +8,8 @@
     <!--Main Activity-->
     <string name="search_hint">Search any movie name eg Batman</string>
     <string name="showing">Showing search results ...</string>
+
+    <!--Movie Details Activity-->
+    <string name="year_and_runtime">%1$s, %2$s</string>
+    <string name="imdb_rating">%1$s &#9733;</string>
 </resources>
