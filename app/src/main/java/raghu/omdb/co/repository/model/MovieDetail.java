@@ -3,11 +3,13 @@ package raghu.omdb.co.repository.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Movie implements Parcelable {
+public class MovieDetail implements Parcelable {
     @SerializedName("Title")
     private String title;
     @SerializedName("Year")
@@ -57,7 +59,7 @@ public class Movie implements Parcelable {
     @SerializedName("Response")
     private String response;
 
-    protected Movie(Parcel in) {
+    protected MovieDetail(Parcel in) {
         title = in.readString();
         year = in.readString();
         rated = in.readString();
@@ -119,15 +121,15 @@ public class Movie implements Parcelable {
         return 0;
     }
 
-    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+    public static final Creator<MovieDetail> CREATOR = new Creator<MovieDetail>() {
         @Override
-        public Movie createFromParcel(Parcel in) {
-            return new Movie(in);
+        public MovieDetail createFromParcel(Parcel in) {
+            return new MovieDetail(in);
         }
 
         @Override
-        public Movie[] newArray(int size) {
-            return new Movie[size];
+        public MovieDetail[] newArray(int size) {
+            return new MovieDetail[size];
         }
     };
 
@@ -329,5 +331,11 @@ public class Movie implements Parcelable {
 
     public void setResponse(String response) {
         this.response = response;
+    }
+
+    @Override
+    public String toString() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(this);
     }
 }

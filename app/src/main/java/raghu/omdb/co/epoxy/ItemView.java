@@ -12,6 +12,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import raghu.omdb.co.R;
+import raghu.omdb.co.details.MovieDetailsActivity;
 import raghu.omdb.co.repository.model.MovieInfo;
 import timber.log.Timber;
 
@@ -45,7 +46,7 @@ class ItemView extends FrameLayout {
     // region private
     private void startDetailsPage() {
         Timber.e("Starting Details page ");
-        //MovieDetailsActivity.start((Activity) getContext(),movieInfo);
+        MovieDetailsActivity.start( getContext(),movieInfo.getImdbId());
     }
     //endregion private
 }
