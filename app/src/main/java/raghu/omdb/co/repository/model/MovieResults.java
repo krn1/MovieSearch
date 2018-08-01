@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MovieResults implements Parcelable {
@@ -18,6 +19,11 @@ public class MovieResults implements Parcelable {
     MovieResults(Parcel in) {
         results = in.createTypedArrayList(MovieInfo.CREATOR);
         error = in.readString();
+    }
+
+    public MovieResults() {
+        results = new ArrayList<>();
+        error = null;
     }
 
     public static final Creator<MovieResults> CREATOR = new Creator<MovieResults>() {

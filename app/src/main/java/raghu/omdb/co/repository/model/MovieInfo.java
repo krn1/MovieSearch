@@ -27,6 +27,9 @@ public class MovieInfo implements Parcelable {
         poster = in.readString();
     }
 
+    public MovieInfo() {
+
+    }
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(title);

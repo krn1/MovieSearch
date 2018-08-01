@@ -87,6 +87,10 @@ public class MovieDetail implements Parcelable {
         response = in.readString();
     }
 
+    public MovieDetail() {
+
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(title);

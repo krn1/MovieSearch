@@ -19,7 +19,8 @@ import timber.log.Timber;
 @PerActivity
 class MainActivityPresenter implements MainActivityContract.Presenter {
 
-    private int PAGE_NUM = 1;
+    @VisibleForTesting
+    protected int PAGE_NUM = 1;
     private MainActivityContract.View view;
     private CompositeDisposable disposable;
     private RestApi apiService;
